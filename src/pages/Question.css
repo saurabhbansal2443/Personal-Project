@@ -2,29 +2,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100svh; /* Small viewport height prevents mobile browser bars from hiding content */
-  width: 100vw;
-  padding: 20px;
-  position: relative;
-  overflow: hidden; /* Ensure absolutely no scrollbars ever appear */
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  overflow: hidden;
   z-index: 10;
+  touch-action: none; /* Prevent all touch-based scrolling */
 }
 
 .question-card {
-  padding: 50px;
+  padding: 30px 20px;
   text-align: center;
-  max-width: 500px;
+  max-width: 460px;
   width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .question-card h1 {
-  margin-bottom: 15px;
-  font-size: 2.5rem;
+  margin-bottom: 8px;
+  font-size: 2rem;
+}
+
+.question-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 .question-card h2 {
-  margin: 30px 0;
-  font-size: 1.8rem;
+  margin: 15px 0;
+  font-size: 1.5rem;
   color: var(--accent);
 }
 
@@ -33,7 +45,7 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-top: 40px;
+  margin-top: 25px;
   position: relative;
   min-height: 50px;
 }
@@ -41,22 +53,33 @@
 .buttons-column {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.roast-message {
+  margin-top: 15px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  font-style: italic;
 }
 
 .quiz-btn {
   width: 100%;
+  font-size: 0.95rem !important;
+  padding: 10px 20px !important;
 }
 
 .yes-btn {
-  font-size: 1.2rem;
-  padding: 15px 30px;
-  transform: scale(1.1);
+  font-size: 1.1rem;
+  padding: 12px 24px;
 }
 
 .yes-btn:hover {
-  transform: scale(1.2) translateY(-3px);
+  transform: scale(1.1) translateY(-2px);
   box-shadow: 0 8px 25px rgba(217, 4, 41, 0.6);
 }
 
@@ -64,9 +87,9 @@
   background: white;
   color: var(--text);
   border: 2px solid var(--secondary);
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 30px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -83,16 +106,17 @@
 
 /* Slider CSS */
 .slider-container {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .custom-slider {
   -webkit-appearance: none;
   width: 100%;
-  height: 15px;
+  height: 12px;
   border-radius: 10px;
   outline: none;
   border: 1px solid rgba(255,255,255,0.8);
@@ -103,8 +127,8 @@
 .custom-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
@@ -112,10 +136,10 @@
 }
 
 .slider-value {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: var(--accent);
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 /* Drag to Lock Game */
@@ -123,12 +147,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 40px;
+  padding: 20px 30px;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  margin-top: 30px;
+  border-radius: 16px;
+  margin-top: 20px;
   position: relative;
   border: 2px dashed rgba(217, 4, 41, 0.3);
+  width: 100%;
+  touch-action: none; /* Critical: let framer-motion handle touch, prevent page scroll */
 }
 
 .draggable-heart {
@@ -137,6 +163,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  touch-action: none; /* Prevent default touch behavior on the draggable element */
 }
 
 .draggable-heart:active {
@@ -148,29 +175,42 @@
 }
 
 .success-message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
   width: 100%;
 }
 
 .success-message h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  margin-bottom: 8px;
 }
 
 @media (max-width: 480px) {
   .question-card {
-    padding: 30px 20px;
+    padding: 20px 15px;
+  }
+  .question-card h1 {
+    font-size: 1.6rem;
+  }
+  .question-card h2 {
+    font-size: 1.25rem;
+    margin: 12px 0;
+  }
+  .question-card p {
+    font-size: 0.85rem;
   }
   .buttons-container {
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .slider-value {
+    font-size: 1.6rem;
+  }
+  .drag-game-area {
+    padding: 15px 20px;
+    margin-top: 15px;
+  }
+  .success-message h2 {
+    font-size: 1.6rem;
   }
 }

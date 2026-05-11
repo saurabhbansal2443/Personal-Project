@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import './Gallery.css';
 
-// Using Vite's import.meta.glob to dynamically load all images from the assets/Photos folder
-const photoModules = import.meta.glob('../assets/Photos/*.{png,jpg,jpeg,JPG,JPEG,gif,GIF}', { eager: true });
+// Using Vite's import.meta.glob to dynamically load optimized images
+const photoModules = import.meta.glob('../assets/PhotosOptimized/*.{png,jpg,jpeg,JPG,JPEG,gif,GIF}', { eager: true });
 
 const photos = Object.keys(photoModules).map((key, index) => {
   return {
@@ -16,14 +16,42 @@ const photos = Object.keys(photoModules).map((key, index) => {
   };
 });
 
+// Individual image card with shimmer loading
+const PhotoCard = ({ photo, index, onClick }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <motion.div
+      className="polaroid glass-panel"
+      onClick={() => onClick(index)}
+      whileHover={{ scale: 1.05, rotate: 0 }}
+      style={{ cursor: 'pointer' }}
+    >
+      <div className="polaroid-img-wrapper">
+        {!loaded && <div className="img-skeleton" />}
+        <img
+          src={photo.url}
+          alt={photo.caption}
+          onLoad={() => setLoaded(true)}
+          style={{
+            opacity: loaded ? 1 : 0,
+            transition: 'opacity 0.4s ease-in'
+          }}
+        />
+      </div>
+      <div className="polaroid-caption">
+        {photo.caption}
+      </div>
+    </motion.div>
+  );
+};
+
 const Lightbox = ({ photoIndex, onClose, onPrev, onNext }) => {
-  // Lock body scroll when lightbox is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') onClose();
@@ -43,12 +71,10 @@ const Lightbox = ({ photoIndex, onClose, onPrev, onNext }) => {
         exit={{ opacity: 0 }}
         onClick={onClose}
       >
-        {/* Close button */}
         <button className="lightbox-close" onClick={onClose} aria-label="Close">
           <X size={28} />
         </button>
 
-        {/* Previous button */}
         {photos.length > 1 && (
           <button
             className="lightbox-nav lightbox-nav-prev"
@@ -59,9 +85,8 @@ const Lightbox = ({ photoIndex, onClose, onPrev, onNext }) => {
           </button>
         )}
 
-        {/* The image */}
         <motion.img
-          key={photoIndex} // Re-animates when index changes
+          key={photoIndex}
           src={photos[photoIndex].url}
           alt={photos[photoIndex].caption}
           className="lightbox-image"
@@ -73,7 +98,6 @@ const Lightbox = ({ photoIndex, onClose, onPrev, onNext }) => {
           draggable={false}
         />
 
-        {/* Next button */}
         {photos.length > 1 && (
           <button
             className="lightbox-nav lightbox-nav-next"
@@ -84,7 +108,6 @@ const Lightbox = ({ photoIndex, onClose, onPrev, onNext }) => {
           </button>
         )}
 
-        {/* Counter */}
         <div className="lightbox-counter">
           {photoIndex + 1} / {photos.length}
         </div>
@@ -110,20 +133,12 @@ const Gallery = () => {
 
       <div className="masonry-grid">
         {photos.map((photo, index) => (
-          <motion.div
+          <PhotoCard
             key={photo.id}
-            className="polaroid glass-panel"
-            onClick={() => openLightbox(index)}
-            whileHover={{ scale: 1.05, rotate: 0 }}
-            style={{ cursor: 'pointer' }}
-          >
-            <div className="polaroid-img-wrapper">
-              <img src={photo.url} alt={photo.caption} loading="lazy" />
-            </div>
-            <div className="polaroid-caption">
-              {photo.caption}
-            </div>
-          </motion.div>
+            photo={photo}
+            index={index}
+            onClick={openLightbox}
+          />
         ))}
       </div>
 
