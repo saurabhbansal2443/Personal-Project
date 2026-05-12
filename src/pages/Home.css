@@ -32,11 +32,72 @@
   margin-top: 24px;
 }
 
+/* ===== LIVE COUNTER ===== */
+.love-counter {
+  margin: 25px 0;
+  padding: 20px;
+  background: rgba(217, 4, 41, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(217, 4, 41, 0.1);
+}
+
+.counter-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.counter-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.counter-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.counter-number.tick {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.counter-text {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text);
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
 @media (max-width: 480px) {
   .hero-title {
     font-size: 2rem;
   }
   .hero-card {
     padding: 30px 20px;
+  }
+  .counter-number {
+    font-size: 1.3rem;
+  }
+  .counter-grid {
+    gap: 4px;
   }
 }

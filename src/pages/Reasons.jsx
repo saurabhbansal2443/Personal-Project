@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star, Heart } from 'lucide-react';
+import ScrollHint from '../components/ScrollHint';
 import './Reasons.css';
 
 const Reasons = () => {
@@ -52,6 +53,7 @@ const Reasons = () => {
           See Our Memories ❤️
         </button>
       </div>
+      <ScrollHint />
     </div>
   );
 };

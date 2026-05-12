@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Heart, Lock } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import './Question.css';
 
 const Question = () => {
@@ -96,7 +97,16 @@ const Question = () => {
     // If the heart is dragged significantly to the right towards the lock
     if (info.offset.x > 60) {
       setIsUnlocked(true);
-      setTimeout(() => navigate('/welcome'), 2000);
+      // Fire celebration confetti!
+      const colors = ['#FFB7B2', '#D90429', '#E2858E', '#ff69b4', '#ffffff'];
+      const end = Date.now() + 2500;
+      const frame = () => {
+        confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
+        confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      };
+      frame();
+      setTimeout(() => navigate('/welcome'), 2500);
     }
   };
 

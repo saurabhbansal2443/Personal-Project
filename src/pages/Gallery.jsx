@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import ScrollHint from '../components/ScrollHint';
 import './Gallery.css';
 
 // Using Vite's import.meta.glob to dynamically load optimized images
@@ -156,6 +157,7 @@ const Gallery = () => {
           One Last Thing... ❤️
         </button>
       </div>
+      <ScrollHint />
     </div>
   );
 };

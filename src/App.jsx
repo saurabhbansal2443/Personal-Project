@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HeartParticles from './components/HeartParticles';
+import ScrollToTop from './components/ScrollToTop';
 import Question from './pages/Question';
 
 import Home from './pages/Home';
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <HeartParticles />
       <Routes>
         <Route path="/" element={<Question />} />

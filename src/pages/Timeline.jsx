@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import ScrollHint from '../components/ScrollHint';
 import './Timeline.css';
 
 const Timeline = () => {
@@ -17,16 +19,39 @@ const Timeline = () => {
       <h1 className="page-title text-center">Our Beautiful Journey</h1>
       <div className="timeline-container">
         {events.map((event, index) => (
-          <div key={event.id} className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}>
-            <div className="timeline-dot">
+          <motion.div
+            key={event.id}
+            className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -80 : 80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{
+              type: 'spring',
+              stiffness: 100,
+              damping: 20,
+              delay: 0.1,
+            }}
+          >
+            <motion.div
+              className="timeline-dot"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                type: 'spring',
+                stiffness: 300,
+                damping: 15,
+                delay: 0.3,
+              }}
+            >
               <Heart size={16} color="white" />
-            </div>
+            </motion.div>
             <div className="glass-panel timeline-content">
               <span className="timeline-date">{event.date}</span>
               <h3>{event.title}</h3>
               <p>{event.desc}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="text-center" style={{ marginTop: '60px' }}>
@@ -34,6 +59,7 @@ const Timeline = () => {
           Continue ❤️
         </button>
       </div>
+      <ScrollHint />
     </div>
   );
 };
